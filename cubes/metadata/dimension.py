@@ -545,6 +545,10 @@ class Dimension(Conceptual):
         # TODO: should we do deppcopy on info?
         name = alias or self.name
 
+        for changed in [x if extra.get(x) else None for x in ['label', 'role']]:
+            if changed and hasattr(self, changed):
+                setattr(self, changed, extra.pop(changed))
+
         return Dimension(name=name,
                          levels=levels,
                          hierarchies=hierarchies,
